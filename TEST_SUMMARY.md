@@ -137,16 +137,16 @@ mvn clean package
 ### Run Application
 ```bash
 # Default (embedded H2)
-java -jar target/spring-quatz-demo-0.0.1-SNAPSHOT.jar
+java -jar target/spring-quartz-demo-0.0.1-SNAPSHOT.jar
 
 # With dev profile
-java -jar target/spring-quatz-demo-0.0.1-SNAPSHOT.jar --spring.profiles.active=dev
+java -jar target/spring-quartz-demo-0.0.1-SNAPSHOT.jar --spring.profiles.active=dev
 
 # With staging profile
-java -jar target/spring-quatz-demo-0.0.1-SNAPSHOT.jar --spring.profiles.active=staging
+java -jar target/spring-quartz-demo-0.0.1-SNAPSHOT.jar --spring.profiles.active=staging
 
 # With prod profile
-java -jar target/spring-quatz-demo-0.0.1-SNAPSHOT.jar --spring.profiles.active=prod
+java -jar target/spring-quartz-demo-0.0.1-SNAPSHOT.jar --spring.profiles.active=prod
 ```
 
 ## Test Execution Summary
@@ -232,7 +232,7 @@ java -jar target/spring-quatz-demo-0.0.1-SNAPSHOT.jar --spring.profiles.active=p
 - ✅ All 51 tests compile successfully
 - ✅ All 51 tests pass
 - ✅ Project builds successfully (mvn clean package)
-- ✅ JAR created: `target/spring-quatz-demo-0.0.1-SNAPSHOT.jar`
+- ✅ JAR created: `target/spring-quartz-demo-0.0.1-SNAPSHOT.jar`
 - ✅ No compilation errors
 - ✅ No runtime errors during testing
 - ✅ Documentation complete and accurate

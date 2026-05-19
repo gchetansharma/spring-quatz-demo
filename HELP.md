@@ -10,23 +10,23 @@ This application supports dev, staging, and prod environments with profile-speci
 - Ideal for quick local testing
 
 ```bash
-java -jar target/spring-quatz-demo-0.0.1-SNAPSHOT.jar
+java -jar target/spring-quartz-demo-0.0.1-SNAPSHOT.jar
 ```
 
 **To run with a specific profile:**
 
 ```bash
 # Dev Environment
-java -jar target/spring-quatz-demo-0.0.1-SNAPSHOT.jar --spring.profiles.active=dev
+java -jar target/spring-quartz-demo-0.0.1-SNAPSHOT.jar --spring.profiles.active=dev
 # Or with Maven:
 mvn spring-boot:run -Dspring-boot.run.profiles=dev
 
 # Staging Environment
-java -jar target/spring-quatz-demo-0.0.1-SNAPSHOT.jar --spring.profiles.active=staging
+java -jar target/spring-quartz-demo-0.0.1-SNAPSHOT.jar --spring.profiles.active=staging
 mvn spring-boot:run -Dspring-boot.run.profiles=staging
 
 # Production Environment
-java -jar target/spring-quatz-demo-0.0.1-SNAPSHOT.jar --spring.profiles.active=prod
+java -jar target/spring-quartz-demo-0.0.1-SNAPSHOT.jar --spring.profiles.active=prod
 mvn spring-boot:run -Dspring-boot.run.profiles=prod
 ```
 

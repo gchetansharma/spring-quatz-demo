@@ -131,7 +131,7 @@ export SPRING_PROFILES_ACTIVE=dev
 
 **1. No profile (default):**
 ```bash
-java -jar target/spring-quatz-demo-0.0.1-SNAPSHOT.jar
+java -jar target/spring-quartz-demo-0.0.1-SNAPSHOT.jar
 ```
 ✓ Uses embedded H2 in-memory database
 ✓ Falls back to dev quartz configuration
@@ -139,7 +139,7 @@ java -jar target/spring-quatz-demo-0.0.1-SNAPSHOT.jar
 
 **2. Explicit dev profile:**
 ```bash
-java -jar target/spring-quatz-demo-0.0.1-SNAPSHOT.jar --spring.profiles.active=dev
+java -jar target/spring-quartz-demo-0.0.1-SNAPSHOT.jar --spring.profiles.active=dev
 ```
 ✓ Loads `application-dev.properties`
 ✓ Sets logging.level.com.gcs.quartz=DEBUG
@@ -147,7 +147,7 @@ java -jar target/spring-quatz-demo-0.0.1-SNAPSHOT.jar --spring.profiles.active=d
 
 **3. Explicit staging profile:**
 ```bash
-java -jar target/spring-quatz-demo-0.0.1-SNAPSHOT.jar --spring.profiles.active=staging
+java -jar target/spring-quartz-demo-0.0.1-SNAPSHOT.jar --spring.profiles.active=staging
 ```
 ✓ Loads `application-staging.properties`
 ✓ Sets logging.level.com.gcs.quartz=INFO
@@ -155,7 +155,7 @@ java -jar target/spring-quatz-demo-0.0.1-SNAPSHOT.jar --spring.profiles.active=s
 
 **4. Explicit prod profile:**
 ```bash
-java -jar target/spring-quatz-demo-0.0.1-SNAPSHOT.jar --spring.profiles.active=prod
+java -jar target/spring-quartz-demo-0.0.1-SNAPSHOT.jar --spring.profiles.active=prod
 ```
 ✓ Loads `application-prod.properties`
 ✓ Sets logging.level.com.gcs.quartz=WARN
@@ -226,12 +226,12 @@ spring.jpa.hibernate.ddl-auto=validate
 mvn clean package
 
 # Run (default: embedded H2, dev Quartz config)
-java -jar target/spring-quatz-demo-0.0.1-SNAPSHOT.jar
+java -jar target/spring-quartz-demo-0.0.1-SNAPSHOT.jar
 
 # Run specific profile
-java -jar target/spring-quatz-demo-0.0.1-SNAPSHOT.jar --spring.profiles.active=dev
-java -jar target/spring-quatz-demo-0.0.1-SNAPSHOT.jar --spring.profiles.active=staging
-java -jar target/spring-quatz-demo-0.0.1-SNAPSHOT.jar --spring.profiles.active=prod
+java -jar target/spring-quartz-demo-0.0.1-SNAPSHOT.jar --spring.profiles.active=dev
+java -jar target/spring-quartz-demo-0.0.1-SNAPSHOT.jar --spring.profiles.active=staging
+java -jar target/spring-quartz-demo-0.0.1-SNAPSHOT.jar --spring.profiles.active=prod
 ```
 
 The application now starts reliably in all scenarios! 🎉

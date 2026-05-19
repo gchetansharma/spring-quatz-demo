@@ -210,25 +210,25 @@ logging.level.com.gcs.quartz=DEBUG
 **Clone and build:**
 ```bash
 git clone <repository>
-cd spring-quatz-demo
+cd spring-quartz-demo
 mvn clean package
 ```
 
 **Run without profile (uses embedded H2 in-memory database):**
 ```bash
-java -jar target/spring-quatz-demo-0.0.1-SNAPSHOT.jar
+java -jar target/spring-quartz-demo-0.0.1-SNAPSHOT.jar
 ```
 
 **Run with specific profile:**
 ```bash
 # Dev environment (in-memory H2)
-java -jar target/spring-quatz-demo-0.0.1-SNAPSHOT.jar --spring.profiles.active=dev
+java -jar target/spring-quartz-demo-0.0.1-SNAPSHOT.jar --spring.profiles.active=dev
 
 # Staging environment (requires MySQL datasource override)
-java -jar target/spring-quatz-demo-0.0.1-SNAPSHOT.jar --spring.profiles.active=staging
+java -jar target/spring-quartz-demo-0.0.1-SNAPSHOT.jar --spring.profiles.active=staging
 
 # Production environment (requires MySQL datasource override)
-java -jar target/spring-quatz-demo-0.0.1-SNAPSHOT.jar --spring.profiles.active=prod
+java -jar target/spring-quartz-demo-0.0.1-SNAPSHOT.jar --spring.profiles.active=prod
 ```
 
 **Or run with Maven:**
@@ -259,7 +259,7 @@ spring.jpa.hibernate.ddl-auto=validate
 ### Installation
 ```bash
 git clone <repository>
-cd spring-quatz-demo
+cd spring-quartz-demo
 mvn clean install
 ```
 

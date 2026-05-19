@@ -9,10 +9,10 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.gcs.quartz</groupId>
-    <artifactId>spring-quatz-demo</artifactId>
+    <artifactId>spring-quartz-demo</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>spring-quatz-demo</name>
-    <description>spring-quatz-demo</description>
+    <name>spring-quartz-demo</name>
+    <description>spring-quartz-demo</description>
     <properties>
         <java.version>21</java.version>
     </properties>
