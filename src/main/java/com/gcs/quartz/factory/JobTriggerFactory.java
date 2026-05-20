@@ -14,7 +14,6 @@ import java.util.*;
  */
 @Component
 public class JobTriggerFactory {
-
     private static final Logger logger = LoggerFactory.getLogger(JobTriggerFactory.class);
     private final JobRegistry jobRegistry;
 

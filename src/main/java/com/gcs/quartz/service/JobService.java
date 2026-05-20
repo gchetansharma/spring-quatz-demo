@@ -66,8 +66,8 @@ public class JobService {
             updateQuartzJob(jobDefinition, shouldReschedule || statusChanged);
         } else if (statusChanged) {
             // If it was just disabled
-            scheduler.deleteJob(new JobKey(name, group));
-            logger.info("Deleted job from scheduler as it was disabled: {}/{}", group, name);
+                scheduler.deleteJob(new JobKey(name, group));
+                logger.info("Deleted job from scheduler as it was disabled: {}/{}", group, name);
         }
 
         return true;

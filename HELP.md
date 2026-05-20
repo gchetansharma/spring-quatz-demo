@@ -5,9 +5,10 @@
 This application supports dev, staging, and prod environments with profile-specific configurations.
 
 **Default (No Profile):**
-- Uses embedded H2 in-memory database
+- Uses embedded H2 file-based database (persists to `./data/quartz` directory)
 - Falls back to dev quartz configuration
-- Ideal for quick local testing
+- Quartz jobs are persisted to H2 database (JDBCJobStore)
+- Ideal for local development and testing
 
 ```bash
 java -jar target/spring-quartz-demo-0.0.1-SNAPSHOT.jar
@@ -33,7 +34,7 @@ mvn spring-boot:run -Dspring-boot.run.profiles=prod
 Each profile uses environment-specific configuration from `application-{profile}.properties` files.
 
 Quartz scheduler configuration:
-- `quartz-dev.properties`: In-memory RAMJobStore for quick dev/testing
+- `quartz-dev.properties`: JDBCJobStore with H2 file-based database for persistent job storage
 - `quartz-staging.properties`: Uses JDBCJobStore with MySQL (configure datasource separately)
 - `quartz-prod.properties`: Uses JDBCJobStore with MySQL (configure datasource separately)
 
@@ -248,6 +249,75 @@ curl -X DELETE http://localhost:8080/api/jobs/WeekdayGroup/LoggingJob
 ```json
 "Job stopped and deleted successfully"
 ```
+
+### H2 Database Console
+
+The application includes the **H2 Database Console** for viewing and managing the Quartz job data stored in the H2 database during development.
+
+#### Accessing H2 Console
+
+1. **Start the application** (dev profile):
+   ```bash
+   java -jar target/spring-quartz-demo-0.0.1-SNAPSHOT.jar --spring.profiles.active=dev
+   # Or with Maven:
+   mvn spring-boot:run -Dspring-boot.run.profiles=dev
+   ```
+
+2. **Open H2 Console in your browser:**
+   - **URL**: [http://localhost:8080/h2-console](http://localhost:8080/h2-console)
+
+3. **Login with the following credentials:**
+   - **JDBC URL**: `jdbc:h2:./data/quartz`
+   - **Username**: `sa`
+   - **Password**: (leave empty)
+
+4. **Click "Connect"** to access the database
+
+#### Viewing Quartz Job Data
+
+Once connected to the H2 Console, you can view the following Quartz tables:
+
+| Table | Purpose |
+|-------|---------|
+| `QRTZ_JOB_DETAILS` | Stores job definitions and metadata |
+| `QRTZ_TRIGGERS` | Stores trigger schedules and states |
+| `QRTZ_CRON_TRIGGERS` | Stores cron expressions for triggers |
+| `QRTZ_FIRED_TRIGGERS` | Stores history of fired triggers |
+| `QRTZ_SCHEDULER_STATE` | Stores scheduler instance information |
+| `QRTZ_LOCKS` | Stores distributed locking information |
+
+#### Example SQL Queries
+
+**View all registered jobs:**
+```sql
+SELECT * FROM QRTZ_JOB_DETAILS;
+```
+
+**View all triggers:**
+```sql
+SELECT * FROM QRTZ_TRIGGERS;
+```
+
+**View cron expressions for triggers:**
+```sql
+SELECT TG.TRIGGER_NAME, TG.TRIGGER_GROUP, CT.CRON_EXPRESSION 
+FROM QRTZ_TRIGGERS TG 
+JOIN QRTZ_CRON_TRIGGERS CT ON TG.SCHED_NAME = CT.SCHED_NAME 
+  AND TG.TRIGGER_NAME = CT.TRIGGER_NAME 
+  AND TG.TRIGGER_GROUP = CT.TRIGGER_GROUP;
+```
+
+**View trigger execution history:**
+```sql
+SELECT * FROM QRTZ_FIRED_TRIGGERS ORDER BY FIRED_TIME DESC;
+```
+
+#### Data Persistence
+
+- **Location**: `./data/quartz` directory (relative to application root)
+- **Persistence**: H2 database file persists between application restarts
+- **Clearing Data**: Delete the `./data` directory to reset the database
+- **Automatic Schema**: Quartz tables are automatically created on first startup from `schema.sql`
 
 ### Adding New Jobs
 

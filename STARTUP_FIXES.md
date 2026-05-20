@@ -37,9 +37,13 @@ Reason: Failed to determine a suitable driver class
    spring.jpa.hibernate.ddl-auto=update
    ```
 
-3. Updated **Quartz properties location** to default to `dev` when no profile is active:
+3. Updated **Quartz properties location** so the base `quartz.properties` is used when no profile is active. Profile-specific files override this property when a profile is active.
    ```properties
-   spring.quartz.properties-location=classpath:quartz-${spring.profiles.active:dev}.properties
+   # default (no profile active)
+   spring.quartz.properties-location=classpath:quartz.properties
+
+   # application-dev.properties (when dev active)
+   spring.quartz.properties-location=classpath:quartz-dev.properties
    ```
 
 **Result:** Application now starts successfully without any external database or active profile.
@@ -133,8 +137,9 @@ export SPRING_PROFILES_ACTIVE=dev
 ```bash
 java -jar target/spring-quartz-demo-0.0.1-SNAPSHOT.jar
 ```
-✓ Uses embedded H2 in-memory database
-✓ Falls back to dev quartz configuration
+✓ Uses embedded H2 database (file-based by default)
+✓ Loads `application.properties` (base)
+✓ Uses `quartz.properties` as the Quartz configuration when no profile is active
 ✓ Jobs registered and scheduled successfully
 
 **2. Explicit dev profile:**
@@ -143,7 +148,7 @@ java -jar target/spring-quartz-demo-0.0.1-SNAPSHOT.jar --spring.profiles.active=
 ```
 ✓ Loads `application-dev.properties`
 ✓ Sets logging.level.com.gcs.quartz=DEBUG
-✓ Jobs registered with dev configuration
+✓ Loads `quartz-dev.properties` for Quartz configuration
 
 **3. Explicit staging profile:**
 ```bash
@@ -151,7 +156,7 @@ java -jar target/spring-quartz-demo-0.0.1-SNAPSHOT.jar --spring.profiles.active=
 ```
 ✓ Loads `application-staging.properties`
 ✓ Sets logging.level.com.gcs.quartz=INFO
-✓ Uses default H2 (override datasource in staging props for MySQL)
+✓ Loads `quartz-staging.properties` for Quartz configuration (override datasource for MySQL if configured)
 
 **4. Explicit prod profile:**
 ```bash
@@ -159,7 +164,7 @@ java -jar target/spring-quartz-demo-0.0.1-SNAPSHOT.jar --spring.profiles.active=
 ```
 ✓ Loads `application-prod.properties`
 ✓ Sets logging.level.com.gcs.quartz=WARN
-✓ Uses default H2 (override datasource in prod props for MySQL)
+✓ Loads `quartz-prod.properties` for Quartz configuration (override datasource for MySQL if configured)
 
 ---
 
@@ -169,7 +174,7 @@ java -jar target/spring-quartz-demo-0.0.1-SNAPSHOT.jar --spring.profiles.active=
 ```
 com.gcs.quartz.registry.JobRegistry : Registered job: LoggingJob in group: WeekdayGroup
 c.gcs.quartz.factory.JobTriggerFactory : Created job detail and trigger for: LoggingJob in group: WeekdayGroup
-c.gcs.quartz.SpringQuatzDemoApplication : Started SpringQuatzDemoApplication in X.XXX seconds
+com.gcs.quartz.SpringQuartzDemoApplication : Started SpringQuartzDemoApplication in X.XXX seconds
 ```
 
 **No errors about:**
@@ -212,10 +217,10 @@ spring.jpa.hibernate.ddl-auto=validate
 | `pom.xml` | Added H2 dependency | Embedded database for local dev/test |
 | `pom.xml` | Removed springdoc-openapi | Incompatible with Spring Boot 4.0.6 |
 | `application.properties` | Added H2 datasource config | Default DB when no profile specified |
-| `application.properties` | Changed quartz location to use `:dev` default | Falls back to dev quartz config when no profile |
-| `application-dev.properties` | Removed `spring.profiles.active=dev` | Not allowed in profile-specific files |
-| `application-staging.properties` | Removed `spring.profiles.active=staging` | Not allowed in profile-specific files |
-| `application-prod.properties` | Removed `spring.profiles.active=prod` | Not allowed in profile-specific files |
+| `application.properties` | Set quartz location to use `quartz.properties` by default | Use base quartz.properties when no profile is active; profile-specific files override it |
+| `application-dev.properties` | Removed `spring.profiles.active=dev` and added quartz override | Not allowed in profile-specific files; dev overrides quartz location |
+| `application-staging.properties` | Removed `spring.profiles.active=staging` and added quartz override | Not allowed in profile-specific files; staging overrides quartz location |
+| `application-prod.properties` | Removed `spring.profiles.active=prod` and added quartz override | Not allowed in profile-specific files; prod overrides quartz location |
 
 ---
 
@@ -225,7 +230,7 @@ spring.jpa.hibernate.ddl-auto=validate
 # Build
 mvn clean package
 
-# Run (default: embedded H2, dev Quartz config)
+# Run (default: embedded H2, base quartz.properties)
 java -jar target/spring-quartz-demo-0.0.1-SNAPSHOT.jar
 
 # Run specific profile
@@ -235,4 +240,3 @@ java -jar target/spring-quartz-demo-0.0.1-SNAPSHOT.jar --spring.profiles.active=
 ```
 
 The application now starts reliably in all scenarios! 🎉
-

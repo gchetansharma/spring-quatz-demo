@@ -13,7 +13,6 @@ import java.util.*;
  */
 @Component
 public class JobRegistry {
-
     private static final Logger logger = LoggerFactory.getLogger(JobRegistry.class);
     private final Map<String, JobDefinition> jobs = new LinkedHashMap<>();
 

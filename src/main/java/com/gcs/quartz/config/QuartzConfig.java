@@ -8,7 +8,9 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.quartz.SchedulerFactoryBean;
 
+import javax.sql.DataSource;
 import java.util.Map;
+import java.util.Properties;
 
 @Configuration
 public class QuartzConfig {
@@ -18,13 +20,22 @@ public class QuartzConfig {
      * to enable Spring dependency injection in Quartz jobs
      *
      * This bean now dynamically registers all jobs from the JobRegistry
+     * and uses the provided DataSource for persistence.
      */
     @Bean
     public SchedulerFactoryBean schedulerFactoryBean(QuartzJobFactory jobFactory,
                                                      JobTriggerFactory jobTriggerFactory,
-                                                     JobRegistry jobRegistry) {
+                                                     DataSource dataSource) {
         SchedulerFactoryBean schedulerFactory = new SchedulerFactoryBean();
         schedulerFactory.setJobFactory(jobFactory);
+        schedulerFactory.setDataSource(dataSource);
+
+        // Configure Quartz properties
+        Properties properties = new Properties();
+        properties.setProperty("org.quartz.jobStore.driverDelegateClass", "org.quartz.impl.jdbcjobstore.StdJDBCDelegate");
+        properties.setProperty("org.quartz.jobStore.tablePrefix", "QRTZ_");
+        properties.setProperty("org.quartz.jobStore.useProperties", "false");
+        schedulerFactory.setQuartzProperties(properties);
 
         // Register all jobs and triggers dynamically from the registry
         Map<JobDetail, Trigger> jobsAndTriggers = jobTriggerFactory.createAllJobsAndTriggers();

@@ -3,15 +3,14 @@ package com.gcs.quartz.job;
 import com.gcs.quartz.config.LoggingJobProperties;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
+import org.springframework.stereotype.Component;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Component;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 @Component
 public class LoggingJob implements QuartzJobBase {
-
     private static final Logger logger = LoggerFactory.getLogger(LoggingJob.class);
     private static final String JOB_NAME = "LoggingJob";
     private static final String JOB_GROUP = "WeekdayGroup";
